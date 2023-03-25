@@ -33,7 +33,7 @@ app.use("*", (req, res, next) => {
 
 //global error handler
 
-app.use((error, res, req, next) => {
+app.use((error, req, res, next) => {
   const statusCode = error.errorCode || 500;
 
   res.status(statusCode).json({

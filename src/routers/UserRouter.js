@@ -20,13 +20,22 @@ router.post("/", async (req, res, next) => {
           message: "Unable to create user, Please try again later",
         });
   } catch (error) {
+    if (error.message.includes("E11000 duplicate key error collection")) {
+      error.errorCode = 200;
+      error.message =
+        "There is already an account exist with this email, Please try different email";
+    }
     next(error);
   }
 });
 
 router.post("/login", async (req, res, next) => {
   try {
-    const result = await getSingleUser(req.body);
+    const { email, password } = req.body;
+
+    // check if email exist
+
+    const result = await getSingleUser({ email });
 
     console.log(result);
     result?._id
