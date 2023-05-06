@@ -4,7 +4,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import UserRouter from "./src/routers/UserRouter.js";
-import { connectDb } from "./src/configDb/ConfigDb.js";
+import ProductRouter from "./src/routers/ProductRouter.js";
+// import { connectDb } from "./src/configDb/ConfigDb.js";
 
 const app = express();
 
@@ -16,10 +17,11 @@ app.use(cors());
 app.use(morgan("dev"));
 
 //database
-connectDb();
+// connectDb();
 //routers
 
 app.use("/api/v1/user", UserRouter);
+app.use("/api/v1/products", ProductRouter);
 
 //uncaught error handler
 
