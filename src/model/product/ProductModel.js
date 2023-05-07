@@ -1,20 +1,10 @@
 
-// import { connectToDatabase } from '../../configDb/ConfigDb.js'
 
 import { connectToDatabase } from "../../configDb/ConfigDb.js";
 import { ObjectId } from 'mongodb';
 
  
 // export const getAllProduct = async () => {
-
-//     const db = await connectToDatabase();
- 
-//     const collection = await db.collection('products');
-  
-//  return await collection.find()
-   
-// }
-
 
 //get all products 
 
@@ -35,14 +25,14 @@ export const getAllProduct = async()=>  {
 //get single product
 
 export const getSingleProduct = async(slug)=>  {
-  const db = await connectToDatabase(); // db is a Promise that resolves to the collection
+  const db = await connectToDatabase(); 
 
-  console.log(slug); // logs "Promise { <pending> }"
+  console.log(slug); 
 
-  const collection = db.collection('products');  //   return collection; // return the collection
+  const collection = db.collection('products'); 
 
 //   const results = await collection.findOne({ _id: new ObjectId(_id) }); // wait for the Promise to resolve
-  const results = await collection.findOne( slug); // wait for the Promise to resolve
+  const results = await collection.findOne( slug); 
 
   console.log(results); // logs the results of the database query
 
