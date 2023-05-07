@@ -9,7 +9,8 @@ import ProductRouter from "./src/routers/ProductRouter.js";
 
 const app = express();
 
-const PORT = process.env.PORT || 8000;
+// const PORT = process.env.PORT || 8001;
+const PORT = 8001;
 
 //middlewares
 app.use(express.json());

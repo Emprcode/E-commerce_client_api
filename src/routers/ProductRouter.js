@@ -19,10 +19,12 @@ console.log(result, "result")
 })
 
 
-router.get("/:_id", async(req, res, next) => {
+router.get("/:slug", async(req, res, next) => {
     try {
-        const {_id} = req.params
-        const result = await getSingleProduct(_id)
+        const { slug } = req.params
+        console.log(slug)
+        const result = await getSingleProduct({slug})
+        console.log(result)
 
         res.json({
             status:"success",
