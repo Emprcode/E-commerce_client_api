@@ -5,8 +5,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import UserRouter from "./src/routers/UserRouter.js";
 import ProductRouter from "./src/routers/ProductRouter.js";
-import CartRouter from "./src/routers/CartRouter.js";
-import { connectDb } from "./src/configDb/ConfigDb.js";
 // import { connectDb } from "./src/configDb/ConfigDb.js";
 
 const app = express();
@@ -20,12 +18,10 @@ app.use(cors());
 app.use(morgan("dev"));
 
 //database
-connectDb()
 //routers
 
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/products", ProductRouter);
-app.use("/api/v1/cart", CartRouter);
 
 //uncaught error handler
 

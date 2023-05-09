@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { MongoClient } from 'mongodb';
 
 const url = 'mongodb://127.0.0.1:27017/E-commerce';
@@ -17,15 +16,4 @@ export const connectToDatabase = async() => {
     throw err;
   }
 }
-
-export const connectDb = () => {
-  try {
-    mongoose.set('strictQuery', true)
-    const conn = mongoose.connect(process.env.MONGO_CLIENT);
-    conn && console.log("mongo connected")
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 
