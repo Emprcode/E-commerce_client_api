@@ -28,6 +28,12 @@ app.use("/api/v1/categories", CategoryRouter);
 app.use("/api/v1/payment", PaymentRouter);
 
 //uncaught error handler
+app.use("/", (req, res) => {
+  res.json({
+    status:"success",
+    message:"server running"
+  })
+});
 
 app.use("*", (req, res, next) => {
   const error = {
