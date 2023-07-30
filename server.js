@@ -12,14 +12,13 @@ import CategoryRouter from "./src/routers/CategoryRouter.js";
 const app = express();
 
 // const PORT = process.env.PORT || 8001;
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 
 //middlewares
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
-//database
 //routers
 
 app.use("/api/v1/user", UserRouter);
@@ -27,13 +26,15 @@ app.use("/api/v1/products", ProductRouter);
 app.use("/api/v1/categories", CategoryRouter);
 app.use("/api/v1/payment", PaymentRouter);
 
-//uncaught error handler
+//main routing point
 app.use("/", (req, res) => {
   res.json({
     status:"success",
     message:"server running"
   })
 });
+
+//uncaught error handler
 
 app.use("*", (req, res, next) => {
   const error = {

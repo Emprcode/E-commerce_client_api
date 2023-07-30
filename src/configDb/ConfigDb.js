@@ -1,9 +1,9 @@
 import { MongoClient } from 'mongodb';
+import dotenv from "dotenv";
+dotenv.config();
+const MONGO_URL = process.env.MONGO_CLIENT;
 
-const url = 'mongodb://127.0.0.1:27017/E-commerce';
-// const url = 'mongodb://127.0.0.1:27017/E-commerce';
-
-const client = new MongoClient(url);
+const client = new MongoClient(MONGO_URL);
 
 export const connectToDatabase = async() => {
   try {

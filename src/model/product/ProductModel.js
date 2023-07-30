@@ -32,7 +32,7 @@ export const getSingleProduct = async(slug)=>  {
   const collection = db.collection('products'); 
 
 //   const results = await collection.findOne({ _id: new ObjectId(_id) }); // wait for the Promise to resolve
-  const results = await collection.findOne( slug); 
+  const results = await collection.findOne(slug); 
 
   console.log(results); // logs the results of the database query
 
