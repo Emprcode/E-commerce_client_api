@@ -29,7 +29,7 @@ jobs:
         uses: einaregilsson/beanstalk-deploy@v21
         with:
           aws_access_key: ${{ vars.AWS_ACCESS_KEY_ID }}
-          aws_secret_key: ${{ vars.AWS_SECRET_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
           application_name: "acexsports"
           environment_name: "Acexsports-env"
           version_label: ${{ github.sha }}
