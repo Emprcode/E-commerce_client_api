@@ -2,43 +2,25 @@ import mongoose from "mongoose";
 
 const UserSchema = new mongoose.Schema(
   {
-    status: {
-      type: String,
-      default: "inactive",
-    },
-    fName: {
+    username: {
       type: String,
       required: true,
-    },
-    lName: {
-      type: String,
-      required: true,
+      unique: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true, 
-      index: 1
+      unique: true,
+      index: 1,
     },
     password: {
       type: String,
       required: true,
     },
-    phone: {
+    avatar: {
       type: String,
-      default: "",
-    },
-    address: {
-      type: String,
-      default: "",
-    },
-    isEmailVerified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationCode: {
-      type: String,
-      default: null,
+      default:
+        "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg",
     },
   },
   { timestamps: true }

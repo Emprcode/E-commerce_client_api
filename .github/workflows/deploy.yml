@@ -1,0 +1,37 @@
+name: deploy to elastic beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  MONGO_CLIENT: ${{ vars.MONGO_CLIENT }}
+  MONGO_URL: ${{ vars.MONGO_URL }}
+  STRIPE_SECRET_KEY: ${{ vars.STRIPE_SECRET_KEY }}
+  CLIENT_URL: ${{ vars.CLIENT_URL }}
+
+jobs:
+  build-and-deploy:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Dependencies
+        run: npm install
+      - name: Genrate Deployment Package
+        run: zip -r acexsports-build.zip .
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ vars.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ vars.AWS_SECRET_ACCESS_KEY_ID }}
+          application_name: "acexsports"
+          environment_name: "Acexsports-env"
+          version_label: ${{ github.sha }}
+          region: us-east-1
+          deployment_package: acexsports-build.zip
