@@ -7,6 +7,7 @@ import UserRouter from "./src/routers/UserRouter.js";
 import ProductRouter from "./src/routers/ProductRouter.js";
 import PaymentRouter from "./src/routers/PaymentRouter.js";
 import CategoryRouter from "./src/routers/CategoryRouter.js";
+import { connectDb } from "./src/configDb/MongoConfig.js";
 // import { connectDb } from "./src/configDb/ConfigDb.js";
 
 const app = express();
@@ -19,20 +20,22 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 
+//database
+connectDb();
+//main routing point
+// app.use("/", (req, res) => {
+//   res.json({
+//     status: "success",
+//     message: "server running",
+//   });
+// });
+
 //routers
 
 app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/products", ProductRouter);
 app.use("/api/v1/categories", CategoryRouter);
 app.use("/api/v1/payment", PaymentRouter);
-
-//main routing point
-app.use("/", (req, res) => {
-  res.json({
-    status:"success",
-    message:"server running"
-  })
-});
 
 //uncaught error handler
 

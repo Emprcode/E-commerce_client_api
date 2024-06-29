@@ -1,5 +1,8 @@
 import express from "express";
-import { createUser, getSingleUser } from "../model/user/UserModel.js";
+import { createUser, getUser } from "../model/user/UserModel.js";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../configDb/envConfig.js";
+import bcrypt from "bcryptjs";
 
 const router = express.Router();
 
@@ -35,7 +38,7 @@ router.post("/login", async (req, res, next) => {
 
     // check if email exist
 
-    const result = await getSingleUser({ email });
+    const result = await getUser({ email });
 
     console.log(result);
     result?._id
@@ -51,5 +54,85 @@ router.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
+//google
+
+router.post("/google", async (req, res, next) => {
+  try {
+    // check if user exist
+    const { email } = req.body;
+    const user = await getUser({ email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, JWT_SECRET);
+
+      const { password, ...rest } = user._doc;
+      res.json({
+        rest,
+        token,
+        status: "success",
+        message: "Google Login Successful",
+      });
+    } else {
+      const generatePassword = Math.random().toString(36).slice(-8);
+      const hashedPassword = bcrypt.hashSync(generatePassword, 10);
+      const newUser = await createUser({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashedPassword,
+        avatar: req.body.photo,
+      });
+      // console.log("newUser", newUser);
+      if (newUser._id) {
+        const token = jwt.sign({ id: newUser._id }, JWT_SECRET);
+
+        const { password, ...rest } = newUser._doc;
+        res.json({
+          status: "success",
+          message: "Google login successful",
+          token,
+          rest,
+        });
+      }
+    }
+    res.json({
+      status: "error",
+      message: "Invalid logging details. Use valid email",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//get user
+
+// router.get("/", adminAuth, (req, res, next) => {
+// router.get("/", (req, res, next) => {
+//   try {
+//     res.json({
+//       status: "success",
+//       user: req.userInfo,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// logout user
+// router.patch("/logout", async (req, res, next) => {
+//   try {
+//     const { authorization } = req.headers;
+//     const { email } = verifyRefreshJWT(authorization);
+//     email && (await findUserAndUpdate({ email }, { refreshJWT: "" }));
+
+//     res.json({
+//       status: "success",
+//       message: "logout success",
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 export default router;
