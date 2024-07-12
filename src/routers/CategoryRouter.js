@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", async (req, res, next) => {
   try {
     const result = await getAllCategory();
-    console.log(result);
+    // console.log(result);
     res.json({
       status: "success",
       message: "All categories Fetched",
