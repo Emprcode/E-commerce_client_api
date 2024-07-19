@@ -8,6 +8,8 @@ import ProductRouter from "./src/routers/ProductRouter.js";
 import PaymentRouter from "./src/routers/PaymentRouter.js";
 import CategoryRouter from "./src/routers/CategoryRouter.js";
 import { connectDb } from "./src/configDb/MongoConfig.js";
+import OrderRouter from "./src/routers/OrderRouter.js";
+import { userAuth } from "./src/middleware/authMiddleware.js";
 // import { connectDb } from "./src/configDb/ConfigDb.js";
 
 const app = express();
@@ -36,6 +38,7 @@ app.use("/api/v1/user", UserRouter);
 app.use("/api/v1/products", ProductRouter);
 app.use("/api/v1/categories", CategoryRouter);
 app.use("/api/v1/payment", PaymentRouter);
+app.use("/api/v1/order", userAuth, OrderRouter);
 
 //uncaught error handler
 
