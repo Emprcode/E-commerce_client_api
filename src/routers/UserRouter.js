@@ -81,16 +81,18 @@ router.post("/google", async (req, res, next) => {
     } else {
       const generatePassword = Math.random().toString(36).slice(-8);
       const hashedPassword = bcrypt.hashSync(generatePassword, 10);
-      const newUser = await createUser({
-        // username:
-        //   req.body.name.split(" ").join("").toLowerCase() +
-        //   Math.random().toString(36).slice(-4),
+      const newUser = {
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-4),
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
         avatar: req.body.photo,
-      });
-      if (newUser._id) {
+      };
+      const result = await createUser(newUser);
+
+      if (result?._id) {
         const tokens = {
           accessJWT: await signAccessJWT({ email }),
           refreshJWT: await signRefreshJWT({ email }),
@@ -99,7 +101,7 @@ router.post("/google", async (req, res, next) => {
         // const { password, ...rest } = user._doc;
         res.json({
           status: "success",
-          message: "Google Login Successful",
+          message: "New google Login Successful",
           tokens,
         });
       }

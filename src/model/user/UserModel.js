@@ -8,8 +8,8 @@ export const getUser = (filter) => {
   return UserSchema.findOne(filter);
 };
 
-export const updateUser = ({ filter, ...Obj }) => {
-  return UserSchema.findOneAndUpdate(filter, Obj, { new: true });
+export const updateUser = (filter, obj) => {
+  return UserSchema.findOneAndUpdate(filter, obj, { new: true });
 };
 
 export const deleteUser = (_id, obj) => {
