@@ -3,7 +3,7 @@ name: deploy to elastic beanstalk
 on:
   push:
     branches:
-      - main
+      - main1
 
 env:
   MONGO_CLIENT: ${{ vars.MONGO_CLIENT }}
