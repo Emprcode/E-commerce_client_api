@@ -5,15 +5,21 @@ const router = express.Router();
 
 router.post("/create-checkout-session", async (req, res, next) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  // const { name, thumbnail, price, _id, shopQty } = req.body;
+  const { userId, cartItems } = req.body;
   const customer = await stripe.customers.create({
     metadata: {
-      userId: req.body.userId,
-      // cart: JSON.stringify({ name, thumbnail, price, _id, shopQty }),
-      cart: JSON.stringify(req.body.cartItems),
+      userId: userId,
+      cart: JSON.stringify(
+        cartItems.map((item) => {
+          return {
+            productId: item._id,
+            quantity: item.shopQty,
+          };
+        })
+      ),
     },
   });
-  const line_items = req.body.cartItems.map((item) => {
+  const line_items = cartItems.map((item) => {
     return {
       price_data: {
         currency: "aud",
@@ -101,9 +107,8 @@ router.post("/create-checkout-session", async (req, res, next) => {
 // Create order function
 
 const createOrder = async (customer, data) => {
-  const Items = JSON.parse(customer.metadata.cart);
+  const items = JSON.parse(customer.metadata.cart);
 
-  // console.log(Items);
   // const products = Items.map((item) => {
   //   return {
   //     productId: item.id,
@@ -116,7 +121,7 @@ const createOrder = async (customer, data) => {
       userId: customer.metadata.userId,
       customerId: data.customer,
       paymentIntentId: data.payment_intent,
-      products: Items,
+      products: items,
       subtotal: data.amount_subtotal,
       total: data.amount_total,
       shipping: data.customer_details,

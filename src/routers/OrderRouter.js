@@ -12,7 +12,6 @@ router.get("/", async (req, res, next) => {
       message: "Order fetched successfully",
       result,
     });
-    console.log(result);
   } catch (error) {
     next(error);
   }
