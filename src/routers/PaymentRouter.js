@@ -14,6 +14,9 @@ router.post("/create-checkout-session", async (req, res, next) => {
           return {
             productId: item._id,
             quantity: item.shopQty,
+            name: item.name,
+            thumbnail: item.thumbnail,
+            price: item.price,
           };
         })
       ),
@@ -107,9 +110,7 @@ router.post("/create-checkout-session", async (req, res, next) => {
 // Create order function
 
 const createOrder = async (customer, data) => {
-  console.log("customer.metadata.cart:", customer.metadata.cart);
   const items = JSON.parse(customer.metadata.cart);
-  // console.log("items:", items);
   // const products = Items.map((item) => {
   //   return {
   //     productId: item.id,

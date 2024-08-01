@@ -6,7 +6,7 @@ const OrderSchema = new mongoose.Schema(
     paymentIntentId: { type: String },
     products: [
       {
-        _id: {
+        productId: {
           type: String,
         },
         name: {
@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema(
         price: {
           type: String,
         },
-        image: {
+        thumbnail: {
           type: String,
         },
         quantity: {
