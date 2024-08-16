@@ -5,5 +5,9 @@ export const createNewOrder = (obj) => {
 };
 
 export const getOrders = (userId) => {
-  return OrderSchema.findOne(userId);
+  return OrderSchema.findOne(userId).sort({ createdAt: -1 }).exec();
+};
+
+export const deleteOldOrder = (userId) => {
+  return OrderSchema.deleteMany({ userId, _id: { $ne: newDocument._id } });
 };
